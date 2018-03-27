@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This is a simple XML definition for a Animation. 
+	 -->
+<set
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:shareInterpolator="false">
+	
+    <translate android:toXDelta="10"
+               android:fillAfter="true"
+               android:duration="10000"
+               
+               />
+	
+    <translate android:toXDelta="400"
+               android:fillAfter="true"
+               android:duration="10000"
+               android:startOffset="100"/>
+	
+</set>
