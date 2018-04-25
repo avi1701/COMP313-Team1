@@ -1,41 +1,28 @@
 package com.example.avneet.project;
 
 import android.*;
-import android.Manifest;
-import android.annotation.TargetApi;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class view_main extends AppCompatActivity {
+public class SearchProp extends AppCompatActivity {
 
     private int STORAGE_PERMISSION_CODE = 23;
     List<String> list = new ArrayList<String>();
@@ -46,17 +33,23 @@ public class view_main extends AppCompatActivity {
     ImageView myimg;
     ImageView layoutToAnimate ;
     String path;
+    String type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_main);
-        setTitle("CANADIAN WEB SHOP");
+        setContentView(R.layout.activity_search_prop);
+        Intent ob=getIntent();
         startAnimation();
 
-        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},STORAGE_PERMISSION_CODE);
+        type=ob.getStringExtra("prop_type");
+
+        Log.d("INTENT FETCH VALUE",type.toString());
+
+        ActivityCompat.requestPermissions(this,new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},STORAGE_PERMISSION_CODE);
 
         myimg=(ImageView)findViewById(R.id.imageView5);
-        LinearLayout layout = (LinearLayout)findViewById(R.id.Linear);
+        LinearLayout layout = (LinearLayout)findViewById(R.id.searchlinear);
 
         ss=new Spinner(this);
 
@@ -72,8 +65,7 @@ public class view_main extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent ob=new Intent(view_main.this,SearchProp.class);
-                Log.d("SPINNER VALUE",ss.getSelectedItem().toString());
+                Intent ob=new Intent(SearchProp.this,SearchProp.class);
                 ob.putExtra("prop_type",ss.getSelectedItem().toString());
                 startActivity(ob);
             }
@@ -86,10 +78,12 @@ public class view_main extends AppCompatActivity {
         Backend db = new Backend(getApplicationContext());
         db.createDatabase(getApplicationContext());
 
-        Cursor cr=db.excuteMyQuery("select * from Property");
+        Cursor cr=db.excuteMyQuery("select * from Property where type='"+type.toString()+"'");
 
         while (cr.moveToNext())
         {
+            Log.d("DATABASE FETCH VALUE",""+cr.getInt(0));
+
             myimg = new ImageView(this);
             myimg.setLayoutParams(new android.view.ViewGroup.LayoutParams(350, 350));
             myimg.setMaxHeight(350);
@@ -107,7 +101,7 @@ public class view_main extends AppCompatActivity {
             myimg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent ob=new Intent(view_main.this,PropertyView.class);
+                    Intent ob=new Intent(SearchProp.this,PropertyView.class);
                     ob.putExtra("uid",val);
                     startActivity(ob);
                 }
@@ -124,6 +118,5 @@ public class view_main extends AppCompatActivity {
         layoutToAnimate.startAnimation(an);
 
     }
-
 
 }

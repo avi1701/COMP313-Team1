@@ -20,7 +20,8 @@
         android:id="@+id/addr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Address" />
+        android:text="Address:" />
+
 
     <EditText
         android:id="@+id/addrs"
@@ -34,7 +35,7 @@
         android:id="@+id/c"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="City" />
+        android:text="City:" />
 
     <EditText
         android:id="@+id/city"
@@ -48,7 +49,7 @@
         android:id="@+id/p"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Province" />
+        android:text="Province:" />
 
     <EditText
         android:id="@+id/pro"
@@ -62,7 +63,7 @@
         android:id="@+id/zip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Postal Code" />
+        android:text="Postal Code:" />
 
     <EditText
         android:id="@+id/post"
@@ -71,6 +72,42 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="" />
+    <TextView
+        android:id="@+id/des"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Description:" />
+
+    <EditText
+        android:id="@+id/desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="" />
+    <TextView
+        android:id="@+id/Price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Price:" />
+    <EditText
+        android:id="@+id/pr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="" />
+    <TextView
+        android:id="@+id/Choice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CHOICE:" />
+
+    <Spinner
+        android:id="@+id/spinner2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <Button
         android:id="@+id/button6"
         android:layout_width="wrap_content"
@@ -88,6 +125,7 @@
     </ImageView>
 
     <Button
+        android:id="@id/add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Submit" />

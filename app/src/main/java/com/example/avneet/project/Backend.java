@@ -5,6 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+
+import java.io.ByteArrayOutputStream;
+import java.util.Date;
 
 /**
  * Created by Avneet on 3/25/2018.
@@ -15,7 +19,7 @@ public class Backend extends SQLiteOpenHelper
     private static final String DATABASE_NAME = "comp313.db";
     private static final int DATABASE_VERSION = 1;
     //
-    private String tables[] = {"Users","Picture"};
+    private String tables[] = {"Users","Picture","Review"};
 
     private static final String tableCreatorString[] =
             {
@@ -24,16 +28,34 @@ public class Backend extends SQLiteOpenHelper
                             ", firstname TEXT" +
                             ", lastname TEXT ," +
                             " email TEXT," +
-                            " password TEXT," +"contact TEXT,"+
-                            " role TEXT);",
+                            " password TEXT," +
+                            "contact TEXT,"+
+                            " role TEXT,"+
+                            "udate TEXT"+
+                            ");",
 
-                    "CREATE TABLE Picture (pic_id INTEGER PRIMARY KEY AUTOINCREMENT"+
-                            ",user_id TEXT,"+
+                    "CREATE TABLE Property (pic_id INTEGER PRIMARY KEY AUTOINCREMENT"+
+                            ",user_id INTEGER,"+
                             "address TEXT,"+
-                            "city TEXT"+
-                            "province TEXT"+
-                            "postal_code TEXT"+
-                            "path TEXT);"
+                            "city TEXT,"+
+                            "province TEXT,"+
+                            "postal_code TEXT,"+
+                            "path TEXT,"+
+                            "date TEXT,"+
+                            "description TEXT ,"+
+                            "price INTEGER,"+
+                            "type TEXT"+
+                            ");",
+
+                    "CREATE TABLE Review (r_id INTEGER PRIMARY KEY AUTOINCREMENT"+
+                            ",user_id INTEGER,"+
+                            "pic_id INTEGER,"+
+                            "review TEXT,"+
+                            "rating INTEGER,"+
+                            "date DATETIME,"+
+                            "person TEXT"+
+                            ");"
+
             };
 
 
@@ -44,14 +66,12 @@ public class Backend extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        // Drop existing tables
-        for (int i=0;i<tables.length;i++)
+         for (int i=0;i<tables.length;i++)
             db.execSQL("DROP TABLE IF EXISTS " + tables[i]);
-        //create them
         for (int i=0;i<tables.length;i++)
             db.execSQL(tableCreatorString[i]);
     }
-    //create the database
+
     public void createDatabase(Context context)
     {
         SQLiteDatabase mDatabase;
@@ -65,7 +85,7 @@ public class Backend extends SQLiteOpenHelper
         context.deleteDatabase(DATABASE_NAME);
     }
 
-    public void insertIntoUser(String first,String last, String email,String pass, String con ,String role)
+    public void insertIntoUser(String first,String last, String email,String pass, String con ,String role,String d)
     {
         ContentValues value = new ContentValues();
         value.put("firstname",first);
@@ -74,11 +94,13 @@ public class Backend extends SQLiteOpenHelper
         value.put("password",pass);
         value.put("contact",con);
         value.put("role",role);
+        value.put("udate",d);
         SQLiteDatabase db = this.getWritableDatabase();
         db.insert("Users", null, value);
-        db.close(); //close database connection
+        db.close();
     }
-    public void insertIntoPicture(String user,String add,String city,String prov,String post,String path)
+
+    public void insertIntoPicture(int user, String add, String city, String prov, String post, String desc, String d,int p,String ch,String pat)
     {
         ContentValues value = new ContentValues();
         value.put("user_id",user);
@@ -86,12 +108,35 @@ public class Backend extends SQLiteOpenHelper
         value.put("city",city);
         value.put("province",prov);
         value.put("postal_code",post);
-        value.put("path",path);
+        value.put("path",pat);
+        value.put("description",desc);
+        value.put("date",d);
+        value.put("price",p);
+        value.put("type",ch);
         SQLiteDatabase db = this.getWritableDatabase();
-        db.insert("Picture", null, value);
-        db.close(); //close database connection
+        db.insert("Property", null, value);
+        db.close();
     }
 
+    public void insertIntoReview(int picid, int user,  String review,int rate, String date,String person)
+    {
+        ContentValues value = new ContentValues();
+        value.put("user_id",user);
+        value.put("pic_id",picid);
+        value.put("review",review);
+        value.put("rating",rate);
+        value.put("date",date);
+        value.put("person",person);
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.insert("Review", null, value);
+        db.close();
+    }
+
+    public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 0, outputStream);
+        return outputStream.toByteArray();
+    }
     public void deleteRow(int value,String table)
     {
         SQLiteDatabase db = this.getWritableDatabase();

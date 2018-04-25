@@ -49,7 +49,7 @@ public class View_Users extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                Intent i = new Intent(getApplicationContext(),User.class);
+                Intent i = new Intent(getApplicationContext(),DisplayUserDetail.class);
                 i.putExtra("id",id.get(ss.getSelectedItemPosition()));
                 startActivity(i);
             }

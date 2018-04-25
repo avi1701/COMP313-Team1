@@ -30,7 +30,10 @@ public class Credential extends AppCompatActivity {
         Cursor cr = db.excuteMyQuery("select * from Users where email='"+user.getText().toString()+"' and role='admin'");
         Cursor cr1 = db.excuteMyQuery("select * from Users where email='"+user.getText().toString()+"' and role='user'");
 
-        if(cr.moveToNext())
+        String us=user.getText().toString();
+        String p=pass.getText().toString();
+
+        if(us.equals("admin@abc.com") && p.equals("1234"))
         {
 
             Intent ob=new Intent(this,AdminActivity.class);

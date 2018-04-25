@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Project</string>
+
+    <string-array name="choice">
+        <item>Sell</item>
+        <item>Rent</item>
+        <item>Buy</item>
+    </string-array>
+    <string name="title_activity_maps">Map</string>
 </resources>
